@@ -106,3 +106,4 @@ npm run test
 - Per item discount
 - Better Error Handling: Throw typed custom exceptions instead of console errors.
 - When adding freebie rules, eligible items must be verified that they aren't already redeemed the freebie
+- Adding linting and formatting tools (e.g., ESLint, Prettier) for code quality.
