@@ -1,0 +1,22 @@
+{
+  "1": {
+    "id": 1,
+    "name": "iPhone 14",
+    "price": 35000
+  },
+  "2": {
+    "id": 2,
+    "name": "Wireless Headphones",
+    "price": 7000
+  },
+  "3": {
+    "id": 3,
+    "name": "Charging Cable",
+    "price": 500
+  },
+  "4": {
+    "id": 4,
+    "name": "MacBook Air",
+    "price": 45000
+  }
+}

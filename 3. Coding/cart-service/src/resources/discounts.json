@@ -1,0 +1,24 @@
+{
+  "SUMMER_SALE": {
+    "name": "SUMMER_SALE",
+    "type": "percentage",
+    "amount": 10,
+    "maxAmount": 100
+  },
+  "WELCOME10": {
+    "name": "WELCOME10",
+    "type": "fixed",
+    "amount": 200
+  },
+  "BLACK_FRIDAY": {
+    "name": "BLACK_FRIDAY",
+    "type": "percentage",
+    "amount": 20,
+    "maxAmount": 500
+  },
+  "FREESHIP50": {
+    "name": "FREESHIP50",
+    "type": "fixed",
+    "amount": 50
+  }
+}
