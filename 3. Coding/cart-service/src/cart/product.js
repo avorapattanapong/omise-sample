@@ -9,10 +9,6 @@ class Product {
         return this.name;
     }
 
-    getPrice() {
-        return this.price;
-    }
-
     getId() {
         return this.id;
     }

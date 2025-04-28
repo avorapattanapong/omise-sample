@@ -16,7 +16,7 @@ class Cart {
     addProduct(productId, quantity = 1) {
         const product = createProductFromId(productId);
         // Apply Freebie rules
-        this.applyFreebie(product);
+        this.applyFreebie(product, quantity);
 
         // Add product to cart
         if (this.items.has(productId)) {
@@ -52,7 +52,7 @@ class Cart {
                 }
             }
         } else {
-            console.error(`Product with ID ${productId} not found in cart.`);
+            throw new Error(`Product with ID ${productId} not found in cart.`);
         }
     }
 
@@ -60,7 +60,7 @@ class Cart {
         if (this.freebieItems.has(productId)) {
             this.freebieItems.delete(productId);
         } else {
-            console.error(`Freebie product with ID ${productId} not found in cart.`);
+            throw new Error(`Freebie product with ID ${productId} not found in cart.`);
         }
     }
 
@@ -72,8 +72,15 @@ class Cart {
                 this.removeProduct(productId);
             }
         } else {
-            console.error(`Product with ID ${productId} not found in cart.`);
+            throw new Error(`Product with ID ${productId} not found in cart.`);
         }
+    }
+
+    destroyCart() {
+        this.items.clear();
+        this.freebieItems.clear();
+        this.discounts.clear();
+        this.freebieRules = [];
     }
 
     // Utilities
@@ -121,7 +128,7 @@ class Cart {
     addDiscount(discountName) {
         const discount = createDiscountFromName(discountName);
         if (this.discounts.has(discountName)) {
-            console.error(`Discount with name ${discountName} already exists.`);
+            throw new Error(`Discount with name ${discountName} already exists.`);
         } else {
             this.discounts.set(discountName, discount);
         }
@@ -131,12 +138,11 @@ class Cart {
         if (this.discounts.has(discountName)) {
             this.discounts.delete(discountName);
         } else {
-            console.error(`Discount with name ${discountName} not found.`);
+            throw new Error(`Discount with name ${discountName} not found.`);
         }
     }
 
     calculateCartTotal() {
-        console.log("Cart total calculation started");
         let total = 0;
         for (const { product, quantity } of this.items.values()) {
             total += product.price * quantity;
@@ -152,16 +158,36 @@ class Cart {
         return total - discountTotal;
     }
 
-    applyFreebie(addedProduct) {
+    applyFreebie(addedProduct, quantity) {
         for (const rule of this.freebieRules) {
             if (rule.isEligible(addedProduct)) {
-                this.addFreebie(rule.freeProductId);
+                this.addFreebie(rule.freeProductId, quantity);
             }
         }
     }
 
     addFreebieRule(freebieRule) {
         this.freebieRules.push(freebieRule);
+        for(const [productId, { product, quantity }] of this.items) {
+            if (freebieRule.isEligible(product)) {
+                this.addFreebie(freebieRule.freeProductId, quantity);
+            }
+        }
+    }
+
+    removeFreebieRule(freebieRule) {
+        const index = this.freebieRules.indexOf(freebieRule);
+        if (index > -1) {
+            this.freebieRules.splice(index, 1);
+        } else {
+            console.error(`Freebie rule not found.`);
+        }
+
+        for(const [productId, { product, quantity }] of this.items) {
+            if (freebieRule.isEligible(product)) {
+                this.removeFreebie(freebieRule.freeProductId, quantity);
+            }
+        }
     }
 }
 

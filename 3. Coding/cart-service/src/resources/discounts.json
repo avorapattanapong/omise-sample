@@ -20,5 +20,11 @@
     "name": "FREESHIP50",
     "type": "fixed",
     "amount": 50
+  },
+  "NEWYEAR2024": {
+    "name": "NEWYEAR2024",
+    "type": "percentage",
+    "amount": 50,
+    "maxAmount": 2000
   }
 }
